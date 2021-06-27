@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import axios from 'axios'
 
 const Root = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const Cont = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 `
 const UrlInputBar = styled.input`
   width: 300px;
@@ -32,13 +34,34 @@ const Button = styled.button`
 `
 
 const UrlInput = () => {
+  const [url, setUrl] = useState('')
+  const [shortUrl, setShortUrl] = useState('')
+
+  const handleShortenUrl = async () => {
+    try {
+      const { data, status } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/api/url/shorten`,
+        {
+          originalUrl: url
+        }
+      )
+
+      if (status === 200) {
+        setShortUrl(data.shortUrl)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <Root>
       <Message>Shorten Your Url!</Message>
       <Cont>
-        <UrlInputBar type='text' />
-        <Button>Shorten Url!</Button>
+        <UrlInputBar type='text' onChange={e => setUrl(e.target.value)} />
+        <Button onClick={handleShortenUrl}>Shorten Url!</Button>
       </Cont>
+      {shortUrl && <div style={{ color: 'white' }}>{shortUrl}</div>}
     </Root>
   )
 }
