@@ -2,5 +2,5 @@ POST http://localhost:1234/api/url/shorten
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.udemy.com/course/react-and-typescript-build-a-portfolio-project/"
+  "originalUrl": "https://www.notion.so/businesscanvas/Services-9c98f6cff3494db0ad9b45a7de26beac"
 }
